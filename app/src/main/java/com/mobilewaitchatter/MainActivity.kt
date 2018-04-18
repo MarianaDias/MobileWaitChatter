@@ -1,8 +1,11 @@
 package com.mobilewaitchatter
 
+import android.annotation.SuppressLint
+import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import com.mobilewaitchatter.fragment.MyAccountFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,11 +21,17 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_perfil -> {
-                    //todo: return perfil fragment
+                    replaceFragment(MyAccountFragment())
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    private fun replaceFragment(fragment: android.support.v4.app.Fragment) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_layout, fragment)
+                .commit()
     }
 }

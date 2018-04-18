@@ -7,6 +7,7 @@ import android.content.Intent
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
+import com.mobilewaitchatter.util.FireStoreUtil
 //import com.mobilewaitchatter.firemessage.util.FirestoreUtil
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.clearTask
@@ -47,9 +48,10 @@ class SignInActivity : AppCompatActivity() {
 
             if(resultCode == Activity.RESULT_OK){
                 val progressDialog = indeterminateProgressDialog("Configurando Conta")
-                //todo: inicialize current user in Firestore
-                startActivity(intentFor<MainActivity>().newTask().clearTask())
-                progressDialog.dismiss()
+                FireStoreUtil.initCurrentUserIfFirstTime {
+                    startActivity(intentFor<MainActivity>().newTask().clearTask())
+                    progressDialog.dismiss()
+                }
             }
             else if(resultCode == Activity.RESULT_CANCELED){
                 if(response == null){
