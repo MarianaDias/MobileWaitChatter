@@ -29,9 +29,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("Commit Transaction")
     private fun replaceFragment(fragment: android.support.v4.app.Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_layout, fragment)
-                .commit()
+        supportFragmentManager.beginTransaction().apply{
+                replace(R.id.fragment_layout, fragment)
+                commit()
+        }
+
     }
 }

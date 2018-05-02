@@ -12,12 +12,13 @@ object FireStoreUtil {
     private val filestoreInstance : FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
 
     private val currentUserDocRef : DocumentReference
-        get() = filestoreInstance.document("/users/${ FirebaseAuth.getInstance().currentUser?.uid?: throw NullPointerException("UID is null")}")
+        get() = filestoreInstance.document("/users/${ FirebaseAuth.getInstance().currentUser?.uid?:
+                                                        throw NullPointerException("UID is null")}")
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit){
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()){
-                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName?: "","",null)
+                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null)
                 currentUserDocRef.set(newUser).addOnSuccessListener { onComplete() }
             }
             else {
@@ -26,7 +27,7 @@ object FireStoreUtil {
         }
     }
 
-    fun updateCurrentUser(name: String, bio: String, profilePicturePath: String? = null) {
+    fun updateCurrentUser(name: String= "", bio: String ="", profilePicturePath: String? = null) {
         val userFieldMap = mutableMapOf<String, Any>()
         if (name.isNotBlank()) userFieldMap["name"] = name
         if (bio.isNotBlank()) userFieldMap["bio"] = bio

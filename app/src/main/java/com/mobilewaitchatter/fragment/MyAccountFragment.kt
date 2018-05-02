@@ -41,18 +41,18 @@ class MyAccountFragment : Fragment() {
                 val intent = Intent().apply {
                     type = "image/*"
                     action = Intent.ACTION_GET_CONTENT
-                    putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image.jpeg", "image/png"))
+                    putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
                 }
                 startActivityForResult(Intent.createChooser(intent, "Selecione uma Foto"), RC_SELECTED_IMAGE)
             }
             btn_save.setOnClickListener{
                 if (::selectedImageBytes.isInitialized){
                     StorageUtil.uploadProfilePhoto(selectedImageBytes){ imagePath ->
-                        FireStoreUtil.updateCurrentUser(editText_name.toString(), editText_bio.toString(), imagePath)
+                        FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), imagePath)
                     }
                 }
                 else{
-                    FireStoreUtil.updateCurrentUser(editText_name.toString(), editText_bio.toString(), null)
+                    FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), null)
                 }
             }
 

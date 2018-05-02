@@ -5,5 +5,5 @@ package com.mobilewaitchatter.model
  */
 data class User(val name: String, val bio: String, val profilePicturePath: String?) {
     //Firestore needs a "constructor"
-    constructor(): this(" ", " ", null)
+    constructor(): this("", "", null)
 }
