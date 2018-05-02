@@ -1,9 +1,14 @@
 package com.mobilewaitchatter.util
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobilewaitchatter.model.User
+import com.xwray.groupie.kotlinandroidextensions.Item
+import com.google.firebase.firestore.ListenerRegistration
+import com.mobilewaitchatter.recycleview.item.PersonItem
+import android.util.Log
 
 /**
  * Created by mariana on 15/04/2018.
@@ -39,7 +44,25 @@ object FireStoreUtil {
         currentUserDocRef.get().addOnSuccessListener {
             onComplete(it.toObject(User::class.java))
         }
-
     }
+
+    fun addUsersListener(context: Context, onListen:(List<Item>) -> Unit): ListenerRegistration {
+        return filestoreInstance.collection("users")
+                .addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+                    if(firebaseFirestoreException != null){
+                        Log.e("FIRESTORE","User Listener Error", firebaseFirestoreException)
+                        return@addSnapshotListener
+                    }
+                    val items = mutableListOf<Item>()
+                    querySnapshot.documents.forEach {
+                        if (it.id != FirebaseAuth.getInstance().currentUser?.uid ){
+                            items.add(PersonItem(it.toObject(User::class.java), it.id, context))
+                        }
+                    }
+                    onListen(items)
+                }
+    }
+
+    fun removeListener(registration: ListenerRegistration) = registration.remove()
 
 }
