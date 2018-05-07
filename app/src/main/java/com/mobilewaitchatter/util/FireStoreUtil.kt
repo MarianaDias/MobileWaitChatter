@@ -4,14 +4,11 @@ import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mobilewaitchatter.model.User
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.google.firebase.firestore.ListenerRegistration
 import com.mobilewaitchatter.recycleview.item.PersonItem
 import android.util.Log
-import com.mobilewaitchatter.model.ChatChannel
-import com.mobilewaitchatter.model.MessageType
-import com.mobilewaitchatter.model.TextMessage
+import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.recycleview.item.TextMessageItem
 
 /**
@@ -116,6 +113,12 @@ object FireStoreUtil {
                     }
                     onListen(items)
                 }
+    }
+
+    fun sendMessage(message: Message, channelId: String){
+        chatChannelCollectionRef.document(channelId)
+                .collection("messages")
+                .add(message)
     }
 
 }
