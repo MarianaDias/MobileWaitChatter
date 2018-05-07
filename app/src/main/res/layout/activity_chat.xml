@@ -16,13 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <RelativeLayout
         android:id="@+id/relativeLayout_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/application_fragment"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,5 +64,16 @@
             app:srcCompat="@drawable/ic_send_black_24dp" />
 
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/application_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/relativeLayout_message"
+        android:background="@drawable/edit_text_borders">
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

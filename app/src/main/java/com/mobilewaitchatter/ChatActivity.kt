@@ -9,6 +9,9 @@ import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
+import com.mobilewaitchatter.fragment.MyLanToOtherLanFragment
+import com.mobilewaitchatter.fragment.NewVocabularyFragment
+import com.mobilewaitchatter.fragment.OtherLanToMyLanFragment
 import com.mobilewaitchatter.model.ImageMessage
 import com.mobilewaitchatter.model.MessageType
 import com.mobilewaitchatter.model.TextMessage
@@ -35,6 +38,10 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        //replaceFragment(NewVocabularyFragment())
+        //replaceFragment(MyLanToOtherLanFragment())
+        replaceFragment(OtherLanToMyLanFragment())
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(AppConstants.USER_NAME)
@@ -104,5 +111,11 @@ class ChatActivity : AppCompatActivity() {
         else
             updateItems()
         recycler_view_messages.scrollToPosition(recycler_view_messages.adapter.itemCount -1)
+    }
+
+    private fun replaceFragment(fragment: android.support.v4.app.Fragment) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.application_fragment, fragment)
+                .commit()
     }
 }
