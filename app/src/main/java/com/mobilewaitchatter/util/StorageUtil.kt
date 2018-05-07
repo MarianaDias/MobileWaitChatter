@@ -16,8 +16,16 @@ object StorageUtil {
                 throw NullPointerException("UID is null"))
 
     fun uploadProfilePhoto(imageBytes: ByteArray,
-                           onSuccess: (imagePath: String) -> Unit){
+                              onSuccess: (imagePath: String) -> Unit){
         val ref = currentUserRef.child("profilePictures/${UUID.nameUUIDFromBytes(imageBytes)}")
+        ref.putBytes(imageBytes).addOnSuccessListener {
+            onSuccess(ref.path)
+        }
+    }
+
+    fun uploadMessageImage(imageBytes: ByteArray,
+                           onSuccess: (imagePath: String) -> Unit){
+        val ref = currentUserRef.child("messages/${UUID.nameUUIDFromBytes(imageBytes)}")
         ref.putBytes(imageBytes).addOnSuccessListener {
             onSuccess(ref.path)
         }

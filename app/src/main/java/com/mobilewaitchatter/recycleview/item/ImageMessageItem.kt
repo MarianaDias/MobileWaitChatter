@@ -2,25 +2,29 @@ package com.mobilewaitchatter.recycleview.item
 
 import android.content.Context
 import com.mobilewaitchatter.R
-import com.mobilewaitchatter.model.TextMessage
+import com.mobilewaitchatter.glide.GlideApp
+import com.mobilewaitchatter.model.ImageMessage
+import com.mobilewaitchatter.util.StorageUtil
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-import kotlinx.android.synthetic.main.item_text_message.*
+import kotlinx.android.synthetic.main.item_image_message.*
 
 /**
  * Created by mariana on 07/05/2018.
  */
-
-class TextMessageItem(val message: TextMessage,
-                      val context: Context): MessageItem(message) {
+class ImageMessageItem(val  message:ImageMessage, val context: Context)
+    : MessageItem(message){
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.textView_message_text.text = message.text
         super.bind(viewHolder, position)
+        GlideApp.with(context)
+                .load(StorageUtil.pathToReference(message.imagePath))
+                .placeholder(R.drawable.ic_image_black_24dp)
+                .into(viewHolder.imageView_message_image)
     }
 
-    override fun getLayout() = R.layout.item_text_message
+    override fun getLayout() = R.layout.item_image_message
 
     override fun isSameAs(other: com.xwray.groupie.Item<*>?): Boolean {
-        if(other !is TextMessageItem){
+        if(other !is ImageMessageItem){
             return false
         }
         if(this.message != other.message){
@@ -30,7 +34,7 @@ class TextMessageItem(val message: TextMessage,
     }
 
     override fun equals(other: Any?): Boolean {
-       return isSameAs(other as? TextMessageItem)
+        return isSameAs(other as? ImageMessageItem)
     }
 
     override fun hashCode(): Int {
@@ -38,6 +42,4 @@ class TextMessageItem(val message: TextMessage,
         result = 31 * result + context.hashCode()
         return result
     }
-
-
 }

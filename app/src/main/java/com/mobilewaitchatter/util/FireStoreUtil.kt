@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.mobilewaitchatter.recycleview.item.PersonItem
 import android.util.Log
 import com.mobilewaitchatter.model.*
+import com.mobilewaitchatter.recycleview.item.ImageMessageItem
 import com.mobilewaitchatter.recycleview.item.TextMessageItem
 
 /**
@@ -46,7 +47,7 @@ object FireStoreUtil {
 
     fun getCurrentUser (onComplete: (User) -> Unit){
         currentUserDocRef.get().addOnSuccessListener {
-            onComplete(it.toObject(User::class.java))
+            onComplete(it.toObject(User::class.java)!!)
         }
     }
 
@@ -58,9 +59,9 @@ object FireStoreUtil {
                         return@addSnapshotListener
                     }
                     val items = mutableListOf<Item>()
-                    querySnapshot.documents.forEach {
+                    querySnapshot!!.documents.forEach {
                         if (it.id != FirebaseAuth.getInstance().currentUser?.uid ){
-                            items.add(PersonItem(it.toObject(User::class.java), it.id, context))
+                            items.add(PersonItem(it.toObject(User::class.java)!!, it.id, context))
                         }
                     }
                     onListen(items)
@@ -103,13 +104,14 @@ object FireStoreUtil {
                     }
 
                     val items = mutableListOf<Item>()
-                    querySnapshot.documents.forEach {
+                    querySnapshot!!.documents.forEach {
                         if(it["type"] == MessageType.TEXT){
-                            items.add(TextMessageItem(it.toObject(TextMessage::class.java),context))
+                            items.add(TextMessageItem(it.toObject(TextMessage::class.java)!!,context))
                         }
                         else{
-                            //todo: add image message
+                            items.add(ImageMessageItem(it.toObject(ImageMessage::class.java)!!,context))
                         }
+                        return@forEach
                     }
                     onListen(items)
                 }
