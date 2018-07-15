@@ -1,20 +1,24 @@
 package com.mobilewaitchatter
 
 import android.app.Activity
+import android.app.Fragment
 import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
+import com.mobilewaitchatter.fragment.MyAccountFragment
 import com.mobilewaitchatter.fragment.MyLanToOtherLanFragment
 import com.mobilewaitchatter.fragment.NewVocabularyFragment
 import com.mobilewaitchatter.fragment.OtherLanToMyLanFragment
 import com.mobilewaitchatter.model.ImageMessage
 import com.mobilewaitchatter.model.MessageType
 import com.mobilewaitchatter.model.TextMessage
+import com.mobilewaitchatter.model.Vocabulary
 import com.mobilewaitchatter.util.FireStoreUtil
 import com.mobilewaitchatter.util.StorageUtil
 import com.xwray.groupie.GroupAdapter
@@ -22,26 +26,42 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
+import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
+import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
+import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
 import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
 
 private const val RC_SELECT_IMAGE = 2
 
-class ChatActivity : AppCompatActivity() {
+interface CoolFragmentListener {
+    fun changeFragment(fragment: android.support.v4.app.Fragment)
+}
+
+class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
 
     private lateinit var currentChannelId : String
     private lateinit var messagesListenerRegistration: ListenerRegistration
     private var shouldInitRecycleView = true
     private lateinit var messageSection: Section
 
+    val exampleWords = listOf<Vocabulary>(
+            Vocabulary("Igreja","Church"),
+            Vocabulary("Gato","Cat"),
+            Vocabulary("Festa","Party"),
+            Vocabulary("Bom","Good"),
+            Vocabulary("Sorte","Luck"),
+            Vocabulary("Pao","Bread"))
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        //replaceFragment(NewVocabularyFragment())
-        //replaceFragment(MyLanToOtherLanFragment())
-        replaceFragment(OtherLanToMyLanFragment())
+        changeFragment(NewVocabularyFragment())
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(AppConstants.USER_NAME)
@@ -70,6 +90,7 @@ class ChatActivity : AppCompatActivity() {
             }
 
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,6 +111,7 @@ class ChatActivity : AppCompatActivity() {
             }
 
         }
+
     }
 
     private fun updateRecycleView(messages: List<Item>){
@@ -113,7 +135,8 @@ class ChatActivity : AppCompatActivity() {
         recycler_view_messages.scrollToPosition(recycler_view_messages.adapter.itemCount -1)
     }
 
-    private fun replaceFragment(fragment: android.support.v4.app.Fragment) {
+
+    override fun changeFragment(fragment: android.support.v4.app.Fragment) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.application_fragment, fragment)
                 .commit()

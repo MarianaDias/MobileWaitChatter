@@ -27,7 +27,7 @@
             android:id="@+id/text_otherlan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_lan_ex"
+            android:text="@string/other_lan_ex"
             android:textColor="@color/colorOtherLang"
             android:textSize="25dp"
             android:layout_toRightOf="@+id/editText_myLan"
@@ -35,7 +35,7 @@
             />
 
         <ImageView
-            android:id="@+id/imageView_send"
+            android:id="@+id/imageView_nextLesson_mylan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
