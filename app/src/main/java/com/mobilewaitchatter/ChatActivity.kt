@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
 import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
+import org.jetbrains.anko.db.NULL
 import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -47,13 +48,6 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
     private var shouldInitRecycleView = true
     private lateinit var messageSection: Section
 
-    val exampleWords = listOf<Vocabulary>(
-            Vocabulary("Igreja","Church"),
-            Vocabulary("Gato","Cat"),
-            Vocabulary("Festa","Party"),
-            Vocabulary("Bom","Good"),
-            Vocabulary("Sorte","Luck"),
-            Vocabulary("Pao","Bread"))
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

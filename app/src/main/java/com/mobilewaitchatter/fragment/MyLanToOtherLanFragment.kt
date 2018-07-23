@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
+import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
@@ -27,16 +29,6 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
  */
 class MyLanToOtherLanFragment : Fragment() {
 
-  /*  val exampleWords = createExampleWords()
-    private fun createExampleWords(): List<Vocabulary> {
-        val word1 = Vocabulary("Casa", "House")
-        val word2 = Vocabulary("Cachorro", "Dog")
-        val word3 = Vocabulary("Mulher", "Woman")
-        val word4 = Vocabulary("Agua", "Water")
-        val word5 = Vocabulary("Suco", "Juice")
-        val exampleWords = listOf<Vocabulary>(word1, word2, word3, word4, word5)
-        return exampleWords
-    }*/
     private var listener: CoolFragmentListener? = null
 
 
@@ -55,8 +47,31 @@ class MyLanToOtherLanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         imageView_nextLesson_other_lan.setOnClickListener {
-            listener?.changeFragment(OtherLanToMyLanFragment())
+            if (get_asware("house", editText_otherlan.text.toString())) {
+                listener?.changeFragment(FeedbackFragment())
+                thread.start()
+            }
+            else{
+                //todo: change feedback text
+                listener?.changeFragment(FeedbackFragment())
+                thread.start()
+            }
         }
 
+    }
+
+    fun get_asware(my_vocabulary: String, word: String) : Boolean{
+        return word.toLowerCase() == my_vocabulary.toLowerCase()
+    }
+
+    var thread: Thread = object : Thread() {
+        override fun run() {
+            try {
+                Thread.sleep(1000)
+                listener?.changeFragment(OtherLanToMyLanFragment())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }

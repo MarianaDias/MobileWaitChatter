@@ -6,4 +6,7 @@
 
     <color name="colorMyLang">#23ba5b</color>
     <color name="colorOtherLang">#E37A22</color>
+
+    <color name="colorCorrect">#2E8B57</color>
+    <color name="colorWrong">#B22222</color>
 </resources>
