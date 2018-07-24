@@ -1,6 +1,7 @@
 package com.mobilewaitchatter.fragment
 
 import android.content.Context
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,7 +11,13 @@ import android.view.ViewGroup
 import com.mobilewaitchatter.CoolFragmentListener
 
 import com.mobilewaitchatter.R
+import kotlinx.android.synthetic.main.fragment_feedback.*
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
+import org.jetbrains.anko.textColor
+import android.support.v4.content.ContextCompat
+import android.content.res.ColorStateList
+
+
 
 class FeedbackFragment : Fragment() {
     private var listener: CoolFragmentListener? = null
@@ -24,6 +31,27 @@ class FeedbackFragment : Fragment() {
         super.onAttach(context)
         if (context is CoolFragmentListener){
             listener = context
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val asware = arguments?.getBoolean("answare")
+        text_feedback.text = arguments?.getString("msg")
+        if (asware == false){
+            text_feedback.textColor = Color.RED
+        }
+
+    }
+
+    companion object {
+        fun newInstance(answer: Boolean, msg: String): FeedbackFragment {
+            val fragment = FeedbackFragment()
+            val args = Bundle()
+            args.putBoolean("answer", answer)
+            args.putString("msg",msg)
+            fragment.setArguments(args)
+            return fragment
         }
     }
 

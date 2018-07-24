@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
@@ -22,6 +23,7 @@ import org.jetbrains.anko.support.v4.toast
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.view.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import java.util.*
 
 
 /**
@@ -46,22 +48,30 @@ class MyLanToOtherLanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val currentVoc = getVocabulary()
+        text_mylan.text = currentVoc.word_mylan
         imageView_nextLesson_other_lan.setOnClickListener {
-            if (get_asware("house", editText_otherlan.text.toString())) {
-                listener?.changeFragment(FeedbackFragment())
+            if (getAsware(currentVoc.word_otherlan, editText_otherlan.text.toString())) {
+                listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom!!"))
                 thread.start()
             }
             else{
-                //todo: change feedback text
-                listener?.changeFragment(FeedbackFragment())
+                listener?.changeFragment(FeedbackFragment.newInstance(false, "Desculpe, o correto é "+currentVoc.word_otherlan))
                 thread.start()
             }
         }
 
     }
 
-    fun get_asware(my_vocabulary: String, word: String) : Boolean{
+    private fun getAsware(my_vocabulary: String, word: String) : Boolean{
         return word.toLowerCase() == my_vocabulary.toLowerCase()
+    }
+
+    private fun getVocabulary(): Vocabulary{
+        val index = Random().nextInt(3)
+        if (AppConstants.USER_LEVEL == 1)
+            return AppConstants.exampleWords_level1[index]
+        return AppConstants.exampleWords_level02[index]
     }
 
     var thread: Thread = object : Thread() {
@@ -74,4 +84,6 @@ class MyLanToOtherLanFragment : Fragment() {
             }
         }
     }
+
+
 }

@@ -56,7 +56,6 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
 
         changeFragment(NewVocabularyFragment())
 
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(AppConstants.USER_NAME)
 

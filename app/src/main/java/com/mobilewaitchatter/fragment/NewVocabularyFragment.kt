@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
@@ -33,6 +34,9 @@ class NewVocabularyFragment : Fragment() {
         imageView_nextLesson_newVoc.setOnClickListener{
             listener?.changeFragment(MyLanToOtherLanFragment())
         }
+        val currentVoc = get_word()
+        text_mylan_newVoc.text = currentVoc.word_mylan
+        text_otherlan_newVoc.text = currentVoc.word_otherlan
     }
 
     override fun onAttach(context: Context?) {
@@ -41,5 +45,16 @@ class NewVocabularyFragment : Fragment() {
             listener = context
         }
     }
+
+    private fun get_word() : Vocabulary{
+        val index = Random().nextInt(3 )
+        //todo: Pegar vocabulario do banco
+        if (AppConstants.USER_LEVEL ==1){
+            return AppConstants.exampleWords_level1[index]
+        }
+        return AppConstants.exampleWords_level02[index]
+    }
+
+
 
 }
