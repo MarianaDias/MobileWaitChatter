@@ -28,7 +28,7 @@ object FireStoreUtil {
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit){
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()){
-                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null)
+                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null,1)
                 currentUserDocRef.set(newUser).addOnSuccessListener { onComplete() }
             }
             else {
@@ -37,10 +37,11 @@ object FireStoreUtil {
         }
     }
 
-    fun updateCurrentUser(name: String= "", bio: String ="", profilePicturePath: String? = null) {
+    fun updateCurrentUser(name: String= "", bio: String ="", profilePicturePath: String? = null, level: Int= -1) {
         val userFieldMap = mutableMapOf<String, Any>()
         if (name.isNotBlank()) userFieldMap["name"] = name
         if (bio.isNotBlank()) userFieldMap["bio"] = bio
+        if (level != -1) userFieldMap["level"] = level
         if (profilePicturePath != null) userFieldMap["profilePicturePath"] = profilePicturePath
         currentUserDocRef.update(userFieldMap)
     }

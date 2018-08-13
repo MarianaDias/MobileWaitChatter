@@ -40,7 +40,7 @@ class OtherLanToMyLanFragment: Fragment() {
         text_otherlan.text = currentVoc.word_otherlan
         imageView_nextLesson_mylan.setOnClickListener{
             if(getAsware(currentVoc.word_mylan, editText_myLan.text.toString())){
-                listener?.changeFragment(FeedbackFragment.newInstance(false,"Muito Bom"))
+                listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom"))
                 thread.start()
             }
             else{

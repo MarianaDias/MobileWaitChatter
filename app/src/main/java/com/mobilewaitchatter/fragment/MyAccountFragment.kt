@@ -48,11 +48,11 @@ class MyAccountFragment : Fragment() {
             btn_save.setOnClickListener{
                 if (::selectedImageBytes.isInitialized){
                     StorageUtil.uploadProfilePhoto(selectedImageBytes){ imagePath ->
-                        FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), imagePath)
+                        FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), imagePath,-1)
                     }
                 }
                 else{
-                    FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), null)
+                    FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), null,-1)
                 }
             }
 

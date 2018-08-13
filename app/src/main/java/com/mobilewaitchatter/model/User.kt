@@ -3,7 +3,7 @@ package com.mobilewaitchatter.model
 /**
  * Created by mariana on 15/04/2018.
  */
-data class User(val name: String, val bio: String, val profilePicturePath: String?) {
+data class User(val name: String, val bio: String, val profilePicturePath: String?, val level : Int) {
     //Firestore needs a "constructor"
-    constructor(): this("", "", null)
+    constructor(): this("", "", null, 1)
 }

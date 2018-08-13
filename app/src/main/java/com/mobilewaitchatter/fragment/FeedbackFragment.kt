@@ -36,9 +36,9 @@ class FeedbackFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val asware = arguments?.getBoolean("answare")
+        val answer = arguments?.getBoolean("answer")
         text_feedback.text = arguments?.getString("msg")
-        if (asware == false){
+        if (answer == false){
             text_feedback.textColor = Color.RED
         }
 

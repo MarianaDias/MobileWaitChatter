@@ -15,6 +15,7 @@ import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
+import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
@@ -52,7 +53,7 @@ class MyLanToOtherLanFragment : Fragment() {
         text_mylan.text = currentVoc.word_mylan
         imageView_nextLesson_other_lan.setOnClickListener {
             if (getAsware(currentVoc.word_otherlan, editText_otherlan.text.toString())) {
-                listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom!!"))
+                listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom!!!"))
                 thread.start()
             }
             else{
