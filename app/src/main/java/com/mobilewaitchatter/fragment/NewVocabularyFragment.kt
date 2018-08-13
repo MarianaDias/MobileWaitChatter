@@ -11,6 +11,7 @@ import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
+import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
 import org.jetbrains.anko.support.v4.toast
@@ -31,12 +32,28 @@ class NewVocabularyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         imageView_nextLesson_newVoc.setOnClickListener{
-            listener?.changeFragment(MyLanToOtherLanFragment())
+            if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
+                AppConstants.vocabularyFlashcards.current = 0
+                listener?.changeFragment(MyLanToOtherLanFragment())
+            }
+            else{
+                val currentVoc = get_word()
+                text_mylan_newVoc.text = currentVoc.word_mylan
+                text_otherlan_newVoc.text = currentVoc.word_otherlan
+            }
         }
-        val currentVoc = get_word()
-        text_mylan_newVoc.text = currentVoc.word_mylan
-        text_otherlan_newVoc.text = currentVoc.word_otherlan
+        if (AppConstants.vocabularyFlashcards.flahshcards.isEmpty()){
+            FireStoreUtil.getCurrentUser { user ->
+                listener?.getVocabularyFlashcards(user.level)
+            }
+        }
+        if (AppConstants.vocabularyFlashcards.flahshcards.isNotEmpty()) {
+            val currentVoc = get_word()
+            text_mylan_newVoc.text = currentVoc.word_mylan
+            text_otherlan_newVoc.text = currentVoc.word_otherlan
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -47,12 +64,9 @@ class NewVocabularyFragment : Fragment() {
     }
 
     private fun get_word() : Vocabulary{
-        val index = Random().nextInt(3 )
-        //todo: Pegar vocabulario do banco
-        if (AppConstants.USER_LEVEL ==1){
-            return AppConstants.exampleWords_level1[index]
-        }
-        return AppConstants.exampleWords_level02[index]
+        val index = AppConstants.vocabularyFlashcards.current
+        AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
+        return AppConstants.vocabularyFlashcards.flahshcards[index]
     }
 
 

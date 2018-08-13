@@ -15,10 +15,7 @@ import com.mobilewaitchatter.fragment.MyAccountFragment
 import com.mobilewaitchatter.fragment.MyLanToOtherLanFragment
 import com.mobilewaitchatter.fragment.NewVocabularyFragment
 import com.mobilewaitchatter.fragment.OtherLanToMyLanFragment
-import com.mobilewaitchatter.model.ImageMessage
-import com.mobilewaitchatter.model.MessageType
-import com.mobilewaitchatter.model.TextMessage
-import com.mobilewaitchatter.model.Vocabulary
+import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.util.FireStoreUtil
 import com.mobilewaitchatter.util.StorageUtil
 import com.xwray.groupie.GroupAdapter
@@ -39,6 +36,7 @@ private const val RC_SELECT_IMAGE = 2
 
 interface CoolFragmentListener {
     fun changeFragment(fragment: android.support.v4.app.Fragment)
+    fun getVocabularyFlashcards(user_level: Int)
 }
 
 class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
@@ -48,13 +46,9 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
     private var shouldInitRecycleView = true
     private lateinit var messageSection: Section
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
-        changeFragment(NewVocabularyFragment())
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra(AppConstants.USER_NAME)
@@ -83,6 +77,8 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
             }
 
         }
+
+        changeFragment(NewVocabularyFragment())
 
     }
 
@@ -133,5 +129,29 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.application_fragment, fragment)
                 .commit()
+    }
+
+    override fun getVocabularyFlashcards(user_level: Int)  {
+        var flashcards = Vocabulary_Flashcards()
+        //Selecionar Grupo Aleatorio
+        val index =  Random().nextInt(3)
+        val group = AppConstants.groups[index]
+        //Dentro do Grupo selecionar nivel
+        if (user_level == 1){
+            AppConstants.exampleWords_level1.forEach { vocabulary: Vocabulary ->
+                if (vocabulary.group == group)
+                    flashcards.flahshcards.add(vocabulary)
+            }
+        }
+        else{
+            AppConstants.exampleWords_level02.forEach { vocabulary: Vocabulary ->
+                if (vocabulary.group == group)
+                    flashcards.flahshcards.add(vocabulary)
+            }
+        }
+        flashcards.count_correct = 0
+        flashcards.current = 0
+        flashcards.max_count = flashcards.flahshcards.count()
+        AppConstants.vocabularyFlashcards = flashcards
     }
 }

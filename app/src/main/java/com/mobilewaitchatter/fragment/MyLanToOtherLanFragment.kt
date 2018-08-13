@@ -69,17 +69,24 @@ class MyLanToOtherLanFragment : Fragment() {
     }
 
     private fun getVocabulary(): Vocabulary{
-        val index = Random().nextInt(3)
-        if (AppConstants.USER_LEVEL == 1)
-            return AppConstants.exampleWords_level1[index]
-        return AppConstants.exampleWords_level02[index]
+        val index = AppConstants.vocabularyFlashcards.current
+        AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
+        return AppConstants.vocabularyFlashcards.flahshcards[index]
     }
 
     var thread: Thread = object : Thread() {
         override fun run() {
             try {
                 Thread.sleep(1000)
-                listener?.changeFragment(OtherLanToMyLanFragment())
+                if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
+                    FireStoreUtil.getCurrentUser { user ->
+                        listener?.getVocabularyFlashcards(user.level)
+                        listener?.changeFragment(NewVocabularyFragment())
+                    }
+                }
+                else {
+                    listener?.changeFragment(OtherLanToMyLanFragment())
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

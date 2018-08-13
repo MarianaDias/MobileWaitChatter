@@ -11,6 +11,7 @@ import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
+import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
 import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
 import org.jetbrains.anko.support.v4.toast
@@ -51,10 +52,9 @@ class OtherLanToMyLanFragment: Fragment() {
     }
 
     private fun getVocabulary(): Vocabulary{
-        val index = Random().nextInt(3)
-        if (AppConstants.USER_LEVEL == 1)
-            return AppConstants.exampleWords_level1[index]
-        return AppConstants.exampleWords_level02[index]
+        val index = AppConstants.vocabularyFlashcards.current
+        AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
+        return AppConstants.vocabularyFlashcards.flahshcards[index]
     }
 
     private fun getAsware(myvocabulary: String, word: String): Boolean{
@@ -65,7 +65,15 @@ class OtherLanToMyLanFragment: Fragment() {
         override fun run() {
             try {
                 Thread.sleep(1000)
-                listener?.changeFragment(NewVocabularyFragment())
+                if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
+                    FireStoreUtil.getCurrentUser { user ->
+                        listener?.getVocabularyFlashcards(user.level)
+                        listener?.changeFragment(NewVocabularyFragment())
+                    }
+                }
+                else {
+                    listener?.changeFragment(MyLanToOtherLanFragment())
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
