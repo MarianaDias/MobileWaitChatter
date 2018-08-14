@@ -8,6 +8,8 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import com.google.firebase.firestore.ListenerRegistration
 import com.mobilewaitchatter.recycleview.item.PersonItem
 import android.util.Log
+import android.widget.Toast
+import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.recycleview.item.ImageMessageItem
 import com.mobilewaitchatter.recycleview.item.TextMessageItem
@@ -29,7 +31,10 @@ object FireStoreUtil {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()){
                 val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null,1)
-                currentUserDocRef.set(newUser).addOnSuccessListener { onComplete() }
+                currentUserDocRef.set(newUser).addOnSuccessListener {
+                    getOrCreateUserLevels(newUser)
+                    onComplete()
+                }
             }
             else {
                 onComplete()
@@ -93,6 +98,13 @@ object FireStoreUtil {
                     onComplete(newChannel.id)
                 }
     }
+
+    fun getOrCreateUserLevels(user: User){
+        AppConstants.groups.forEach {
+            currentUserDocRef.update(mapOf(it to 1))
+        }
+    }
+
 
     fun addChatMessagesListener(channelId: String,context: Context,
                                 onListen: (List<Item>) -> Unit) : ListenerRegistration{

@@ -47,6 +47,7 @@ class NewVocabularyFragment : Fragment() {
         if (AppConstants.vocabularyFlashcards.flahshcards.isEmpty()){
             FireStoreUtil.getCurrentUser { user ->
                 listener?.getVocabularyFlashcards(user.level)
+
             }
         }
         if (AppConstants.vocabularyFlashcards.flahshcards.isNotEmpty()) {
