@@ -10,6 +10,7 @@ import com.mobilewaitchatter.recycleview.item.PersonItem
 import android.util.Log
 import android.widget.Toast
 import com.mobilewaitchatter.AppConstants
+import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.recycleview.item.ImageMessageItem
 import com.mobilewaitchatter.recycleview.item.TextMessageItem
@@ -32,7 +33,7 @@ object FireStoreUtil {
             if (!documentSnapshot.exists()){
                 val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null,1)
                 currentUserDocRef.set(newUser).addOnSuccessListener {
-                    getOrCreateUserLevels(newUser)
+                    getOrCreateUserLevels()
                     onComplete()
                 }
             }
@@ -99,7 +100,7 @@ object FireStoreUtil {
                 }
     }
 
-    fun getOrCreateUserLevels(user: User){
+    fun getOrCreateUserLevels(){
         AppConstants.groups.forEach {
             currentUserDocRef.update(mapOf(it to 1))
         }
@@ -134,6 +135,18 @@ object FireStoreUtil {
         chatChannelCollectionRef.document(channelId)
                 .collection("messages")
                 .add(message)
+    }
+
+
+    fun getWordGroup(onComplete: (MutableList<Vocabulary>) -> Unit){
+        val group = AppConstants.groups[1]
+        filestoreInstance.collection("groups").document("Z4HiHjT1VCbACfN35k2T").collection(group).get().addOnSuccessListener {
+            var words = mutableListOf<Vocabulary>()
+            it.forEach {
+                words.add(it.toObject(Vocabulary::class.java)!!)
+            }
+            onComplete(words)
+        }
     }
 
 }

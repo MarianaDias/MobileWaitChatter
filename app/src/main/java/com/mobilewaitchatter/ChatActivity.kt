@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import com.mobilewaitchatter.fragment.MyAccountFragment
@@ -36,7 +37,7 @@ private const val RC_SELECT_IMAGE = 2
 
 interface CoolFragmentListener {
     fun changeFragment(fragment: android.support.v4.app.Fragment)
-    fun getVocabularyFlashcards(user_level: Int)
+    fun getVocabularyFlashcards(user_i: Int)
 }
 
 class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
@@ -131,27 +132,24 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 .commit()
     }
 
-    override fun getVocabularyFlashcards(user_level: Int)  {
-        var flashcards = Vocabulary_Flashcards()
-        //Selecionar Grupo Aleatorio
-        val index =  Random().nextInt(3)
-        val group = AppConstants.groups[index]
-        //Dentro do Grupo selecionar nivel
-        if (user_level == 1){
-            AppConstants.exampleWords_level1.forEach { vocabulary: Vocabulary ->
-                if (vocabulary.group == group)
-                    flashcards.flahshcards.add(vocabulary)
+    override fun getVocabularyFlashcards(user_i: Int)  {
+
+        FireStoreUtil.getWordGroup { words ->
+            var flashcards = Vocabulary_Flashcards()
+            val user_level = 1
+            var wordsFromLevel = mutableListOf<Vocabulary>()
+            words.forEach {
+                if (it.level == user_level)
+                    wordsFromLevel.add(it)
             }
-        }
-        else{
-            AppConstants.exampleWords_level02.forEach { vocabulary: Vocabulary ->
-                if (vocabulary.group == group)
-                    flashcards.flahshcards.add(vocabulary)
+            wordsFromLevel.forEach {
+                flashcards.flahshcards.add(it)
             }
+
+            flashcards.count_correct = 0
+            flashcards.current = 0
+            flashcards.max_count = flashcards.flahshcards.count()
+            AppConstants.vocabularyFlashcards = flashcards
         }
-        flashcards.count_correct = 0
-        flashcards.current = 0
-        flashcards.max_count = flashcards.flahshcards.count()
-        AppConstants.vocabularyFlashcards = flashcards
     }
 }

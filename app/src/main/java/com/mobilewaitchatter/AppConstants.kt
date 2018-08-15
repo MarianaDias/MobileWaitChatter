@@ -9,7 +9,7 @@ import com.mobilewaitchatter.model.Vocabulary_Flashcards
 object AppConstants {
     const val USER_NAME = "USER_NAME"
     const val USER_ID = "USER_ID"
-
+    /*
     val exampleWords_level1 = listOf<Vocabulary>(
             Vocabulary("Igreja","Church","Places",1),
             Vocabulary("Escola","School","Places",1),
@@ -31,9 +31,9 @@ object AppConstants {
             Vocabulary("Engenheiro","Engineer","Professions",1),
             Vocabulary("Bombeiro","Firefighter","Professions",1))
 
-
+    */
     val groups = listOf<String>(
-            "Places", "Animals", "Foods","Professions"
+            "places", "animals"
     )
 
     var vocabularyFlashcards = Vocabulary_Flashcards()

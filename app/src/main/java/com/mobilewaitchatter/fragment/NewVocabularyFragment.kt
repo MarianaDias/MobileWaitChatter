@@ -11,6 +11,7 @@ import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
+import com.mobilewaitchatter.model.Vocabulary_Flashcards
 import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
@@ -45,10 +46,10 @@ class NewVocabularyFragment : Fragment() {
             }
         }
         if (AppConstants.vocabularyFlashcards.flahshcards.isEmpty()){
-            FireStoreUtil.getCurrentUser { user ->
-                listener?.getVocabularyFlashcards(user.level)
-
-            }
+            //FireStoreUtil.getCurrentUser { user ->
+            //    listener?.getVocabularyFlashcards(user.level)
+                listener?.getVocabularyFlashcards(1)
+            //}
         }
         if (AppConstants.vocabularyFlashcards.flahshcards.isNotEmpty()) {
             val currentVoc = get_word()
