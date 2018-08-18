@@ -33,7 +33,7 @@ object AppConstants {
 
     */
     val groups = listOf<String>(
-            "places", "animals"
+            "places", "animals","hello"
     )
 
     var vocabularyFlashcards = Vocabulary_Flashcards()

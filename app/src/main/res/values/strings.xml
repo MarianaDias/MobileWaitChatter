@@ -6,9 +6,8 @@
     <string name="sigh_out">Sair</string>
     <string name="hint_write">Escreva sua Mensagem</string>
     <string name="lorem_ipsum">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</string>
-    <string name="my_lan_ex">"Casa"</string>
-    <string name="other_lan_ex">House</string>
+    <string name="my_lan_ex">x</string>
+    <string name="other_lan_ex">x</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

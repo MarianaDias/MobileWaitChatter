@@ -54,6 +54,7 @@ class MyLanToOtherLanFragment : Fragment() {
         imageView_nextLesson_other_lan.setOnClickListener {
             if (getAsware(currentVoc.word_otherlan, editText_otherlan.text.toString())) {
                 listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom!!!"))
+                AppConstants.vocabularyFlashcards.count_correct += 1
                 thread.start()
             }
             else{
@@ -79,10 +80,9 @@ class MyLanToOtherLanFragment : Fragment() {
             try {
                 Thread.sleep(1000)
                 if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
-                    FireStoreUtil.getCurrentUser { user ->
-                        listener?.getVocabularyFlashcards(user.level)
-                        listener?.changeFragment(NewVocabularyFragment())
-                    }
+                    AppConstants.vocabularyFlashcards.current = 0
+                    listener?.getVocabularyFlashcards(1)
+                    listener?.changeFragment(NewVocabularyFragment())
                 }
                 else {
                     listener?.changeFragment(OtherLanToMyLanFragment())

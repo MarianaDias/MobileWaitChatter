@@ -14,6 +14,7 @@ import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.recycleview.item.ImageMessageItem
 import com.mobilewaitchatter.recycleview.item.TextMessageItem
+import java.util.*
 
 /**
  * Created by mariana on 15/04/2018.
@@ -31,9 +32,9 @@ object FireStoreUtil {
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit){
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()){
-                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null,1)
+                val newUser = User(FirebaseAuth.getInstance().currentUser?.displayName ?: "","",null)
                 currentUserDocRef.set(newUser).addOnSuccessListener {
-                    getOrCreateUserLevels()
+                    createUserLevels()
                     onComplete()
                 }
             }
@@ -43,11 +44,10 @@ object FireStoreUtil {
         }
     }
 
-    fun updateCurrentUser(name: String= "", bio: String ="", profilePicturePath: String? = null, level: Int= -1) {
+    fun updateCurrentUser(name: String= "", bio: String ="", profilePicturePath: String? = null) {
         val userFieldMap = mutableMapOf<String, Any>()
         if (name.isNotBlank()) userFieldMap["name"] = name
         if (bio.isNotBlank()) userFieldMap["bio"] = bio
-        if (level != -1) userFieldMap["level"] = level
         if (profilePicturePath != null) userFieldMap["profilePicturePath"] = profilePicturePath
         currentUserDocRef.update(userFieldMap)
     }
@@ -100,10 +100,15 @@ object FireStoreUtil {
                 }
     }
 
-    fun getOrCreateUserLevels(){
+    fun createUserLevels(){
+        val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val userlevels = filestoreInstance.collection("userlevels").document()
+        userlevels.set(mapOf("uid" to currentUserId))
         AppConstants.groups.forEach {
-            currentUserDocRef.update(mapOf(it to 1))
+            userlevels.update(mapOf(it to 1))
         }
+
     }
 
 
@@ -139,7 +144,8 @@ object FireStoreUtil {
 
 
     fun getWordGroup(onComplete: (MutableList<Vocabulary>) -> Unit){
-        val group = AppConstants.groups[1]
+        val index = Random().nextInt(AppConstants.groups.count())
+        val group = AppConstants.groups[index]
         filestoreInstance.collection("groups").document("Z4HiHjT1VCbACfN35k2T").collection(group).get().addOnSuccessListener {
             var words = mutableListOf<Vocabulary>()
             it.forEach {

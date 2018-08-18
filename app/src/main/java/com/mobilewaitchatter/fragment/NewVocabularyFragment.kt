@@ -40,18 +40,10 @@ class NewVocabularyFragment : Fragment() {
                 listener?.changeFragment(MyLanToOtherLanFragment())
             }
             else{
-                val currentVoc = get_word()
-                text_mylan_newVoc.text = currentVoc.word_mylan
-                text_otherlan_newVoc.text = currentVoc.word_otherlan
+                listener?.changeFragment(NewVocabularyFragment())
             }
         }
-        if (AppConstants.vocabularyFlashcards.flahshcards.isEmpty()){
-            //FireStoreUtil.getCurrentUser { user ->
-            //    listener?.getVocabularyFlashcards(user.level)
-                listener?.getVocabularyFlashcards(1)
-            //}
-        }
-        if (AppConstants.vocabularyFlashcards.flahshcards.isNotEmpty()) {
+        if (AppConstants.vocabularyFlashcards.flahshcards.count() > 0){
             val currentVoc = get_word()
             text_mylan_newVoc.text = currentVoc.word_mylan
             text_otherlan_newVoc.text = currentVoc.word_otherlan
@@ -66,6 +58,9 @@ class NewVocabularyFragment : Fragment() {
     }
 
     private fun get_word() : Vocabulary{
+        if (AppConstants.vocabularyFlashcards.flahshcards.count() == 0){
+            listener?.getVocabularyFlashcards(1)
+        }
         val index = AppConstants.vocabularyFlashcards.current
         AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
         return AppConstants.vocabularyFlashcards.flahshcards[index]

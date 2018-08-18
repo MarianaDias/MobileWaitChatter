@@ -77,9 +77,12 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 startActivityForResult(Intent.createChooser(intent,"Selectione a Imagem: "), RC_SELECT_IMAGE)
             }
 
+            //getVocabularyFlashcards(1)
         }
 
         changeFragment(NewVocabularyFragment())
+        //getVocabularyFlashcards(1)
+
 
     }
 
@@ -135,21 +138,19 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
     override fun getVocabularyFlashcards(user_i: Int)  {
 
         FireStoreUtil.getWordGroup { words ->
-            var flashcards = Vocabulary_Flashcards()
             val user_level = 1
             var wordsFromLevel = mutableListOf<Vocabulary>()
+            AppConstants.vocabularyFlashcards.flahshcards.clear()
             words.forEach {
                 if (it.level == user_level)
                     wordsFromLevel.add(it)
             }
             wordsFromLevel.forEach {
-                flashcards.flahshcards.add(it)
+                AppConstants.vocabularyFlashcards.flahshcards.add(it)
             }
-
-            flashcards.count_correct = 0
-            flashcards.current = 0
-            flashcards.max_count = flashcards.flahshcards.count()
-            AppConstants.vocabularyFlashcards = flashcards
+            AppConstants.vocabularyFlashcards.count_correct = 0
+            AppConstants.vocabularyFlashcards.current = 0
+            AppConstants.vocabularyFlashcards.max_count =  AppConstants.vocabularyFlashcards.flahshcards.count()
         }
     }
 }
