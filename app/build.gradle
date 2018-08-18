@@ -45,6 +45,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-design:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
     //firebase
     //noinspection GradleCompatible
     implementation 'com.google.firebase:firebase-core:16.0.0'
@@ -66,6 +67,7 @@ dependencies {
     apply plugin: 'com.google.gms.google-services'
     //kotlin annotation processor
     apply plugin: 'kotlin-kapt'
+
 
     kotlin {
         experimental {

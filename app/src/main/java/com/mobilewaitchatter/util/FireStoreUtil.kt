@@ -108,9 +108,30 @@ object FireStoreUtil {
         AppConstants.groups.forEach {
             userlevels.update(mapOf(it to 1))
         }
-
     }
 
+    fun getUserLevelByGroup(group: String, onComplete: (groupLevel: Int) -> Unit) {
+        val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+        filestoreInstance.collection("userlevels").get().addOnSuccessListener { users ->
+            users.forEach {
+                if (it["uid"] == currentUserId){
+                    onComplete(it[group].toString().toInt())
+                }
+            }
+        }
+    }
+
+    fun updateUserLevelByGroup(group: String, nextLevel:Int){
+        val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+        filestoreInstance.collection("userlevels").get().addOnSuccessListener { users ->
+            users.forEach {
+                if (it["uid"] == currentUserId){
+                    filestoreInstance.collection("userlevels").document(it.id).update(mapOf(group to nextLevel))
+                    return@addOnSuccessListener
+                }
+            }
+        }
+    }
 
     fun addChatMessagesListener(channelId: String,context: Context,
                                 onListen: (List<Item>) -> Unit) : ListenerRegistration{
@@ -143,9 +164,7 @@ object FireStoreUtil {
     }
 
 
-    fun getWordGroup(onComplete: (MutableList<Vocabulary>) -> Unit){
-        val index = Random().nextInt(AppConstants.groups.count())
-        val group = AppConstants.groups[index]
+    fun getWordGroup(group: String, onComplete: (MutableList<Vocabulary>) -> Unit){
         filestoreInstance.collection("groups").document("Z4HiHjT1VCbACfN35k2T").collection(group).get().addOnSuccessListener {
             var words = mutableListOf<Vocabulary>()
             it.forEach {
@@ -154,5 +173,7 @@ object FireStoreUtil {
             onComplete(words)
         }
     }
+
+
 
 }

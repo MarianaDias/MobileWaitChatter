@@ -15,6 +15,9 @@ import com.mobilewaitchatter.model.Vocabulary_Flashcards
 import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.custom.async
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast
 import java.lang.Math.random
 import java.util.*
@@ -43,11 +46,19 @@ class NewVocabularyFragment : Fragment() {
                 listener?.changeFragment(NewVocabularyFragment())
             }
         }
+        /*if (AppConstants.vocabularyFlashcards.flahshcards.count() == 0){
+            listener?.getVocabularyFlashcards {
+                val currentVoc = get_word()
+                text_mylan_newVoc.text = currentVoc.word_mylan
+                text_otherlan_newVoc.text = currentVoc.word_otherlan
+            }
+        }*/
         if (AppConstants.vocabularyFlashcards.flahshcards.count() > 0){
             val currentVoc = get_word()
             text_mylan_newVoc.text = currentVoc.word_mylan
             text_otherlan_newVoc.text = currentVoc.word_otherlan
         }
+
     }
 
     override fun onAttach(context: Context?) {
@@ -58,9 +69,6 @@ class NewVocabularyFragment : Fragment() {
     }
 
     private fun get_word() : Vocabulary{
-        if (AppConstants.vocabularyFlashcards.flahshcards.count() == 0){
-            listener?.getVocabularyFlashcards(1)
-        }
         val index = AppConstants.vocabularyFlashcards.current
         AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
         return AppConstants.vocabularyFlashcards.flahshcards[index]

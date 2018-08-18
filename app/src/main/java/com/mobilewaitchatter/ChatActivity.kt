@@ -37,7 +37,7 @@ private const val RC_SELECT_IMAGE = 2
 
 interface CoolFragmentListener {
     fun changeFragment(fragment: android.support.v4.app.Fragment)
-    fun getVocabularyFlashcards(user_i: Int)
+    fun getVocabularyFlashcards()
 }
 
 class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
@@ -77,12 +77,10 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 startActivityForResult(Intent.createChooser(intent,"Selectione a Imagem: "), RC_SELECT_IMAGE)
             }
 
-            //getVocabularyFlashcards(1)
+            getVocabularyFlashcards()
         }
 
         changeFragment(NewVocabularyFragment())
-        //getVocabularyFlashcards(1)
-
 
     }
 
@@ -135,22 +133,27 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 .commit()
     }
 
-    override fun getVocabularyFlashcards(user_i: Int)  {
+    override fun getVocabularyFlashcards( )  {
+        val index = Random().nextInt(AppConstants.groups.count())
+        val group = AppConstants.groups[index]
+        AppConstants.vocabularyFlashcards.current_group = group
 
-        FireStoreUtil.getWordGroup { words ->
-            val user_level = 1
-            var wordsFromLevel = mutableListOf<Vocabulary>()
-            AppConstants.vocabularyFlashcards.flahshcards.clear()
-            words.forEach {
-                if (it.level == user_level)
-                    wordsFromLevel.add(it)
+        FireStoreUtil.getUserLevelByGroup(group){ userLevel ->
+            FireStoreUtil.getWordGroup(group) { words ->
+                var wordsFromLevel = mutableListOf<Vocabulary>()
+                AppConstants.vocabularyFlashcards.flahshcards.clear()
+                words.forEach {
+                    if (it.level == userLevel)
+                        wordsFromLevel.add(it)
+                }
+                wordsFromLevel.forEach {
+                    AppConstants.vocabularyFlashcards.flahshcards.add(it)
+                }
+                AppConstants.vocabularyFlashcards.count_correct = 0
+                AppConstants.vocabularyFlashcards.current = 0
+                AppConstants.vocabularyFlashcards.max_count =  AppConstants.vocabularyFlashcards.flahshcards.count()
             }
-            wordsFromLevel.forEach {
-                AppConstants.vocabularyFlashcards.flahshcards.add(it)
-            }
-            AppConstants.vocabularyFlashcards.count_correct = 0
-            AppConstants.vocabularyFlashcards.current = 0
-            AppConstants.vocabularyFlashcards.max_count =  AppConstants.vocabularyFlashcards.flahshcards.count()
         }
     }
+
 }

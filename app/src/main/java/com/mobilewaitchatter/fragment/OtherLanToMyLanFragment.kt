@@ -12,13 +12,14 @@ import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
 import com.mobilewaitchatter.util.FireStoreUtil
+import com.mobilewaitchatter.util.RecomendationUtil
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
 import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
 import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 /**
- * Created by maria on 07/05/2018.
+ * Created by mariana on 07/05/2018.
  */
 class OtherLanToMyLanFragment: Fragment() {
 
@@ -68,8 +69,11 @@ class OtherLanToMyLanFragment: Fragment() {
                 Thread.sleep(1000)
                 if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
                     AppConstants.vocabularyFlashcards.current = 0
-                    listener?.getVocabularyFlashcards(1)
-                    listener?.changeFragment(NewVocabularyFragment())
+                    RecomendationUtil.getNextLevelForGroup(AppConstants.vocabularyFlashcards.count_correct,
+                            AppConstants.vocabularyFlashcards.current_group){ level ->
+                        FireStoreUtil.updateUserLevelByGroup(AppConstants.vocabularyFlashcards.current_group, level)
+                    }
+                    listener?.getVocabularyFlashcards()
                 }
                 else {
                     listener?.changeFragment(MyLanToOtherLanFragment())

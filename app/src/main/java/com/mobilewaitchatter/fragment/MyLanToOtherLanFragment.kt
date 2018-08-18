@@ -16,6 +16,7 @@ import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
 import com.mobilewaitchatter.util.FireStoreUtil
+import com.mobilewaitchatter.util.RecomendationUtil
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
@@ -81,8 +82,11 @@ class MyLanToOtherLanFragment : Fragment() {
                 Thread.sleep(1000)
                 if (AppConstants.vocabularyFlashcards.current == AppConstants.vocabularyFlashcards.max_count){
                     AppConstants.vocabularyFlashcards.current = 0
-                    listener?.getVocabularyFlashcards(1)
-                    listener?.changeFragment(NewVocabularyFragment())
+                    RecomendationUtil.getNextLevelForGroup(AppConstants.vocabularyFlashcards.count_correct,
+                            AppConstants.vocabularyFlashcards.current_group){ level ->
+                        FireStoreUtil.updateUserLevelByGroup(AppConstants.vocabularyFlashcards.current_group, level)
+                    }
+                    listener?.getVocabularyFlashcards()
                 }
                 else {
                     listener?.changeFragment(OtherLanToMyLanFragment())
