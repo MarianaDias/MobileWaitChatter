@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.firebase.ui.auth.AuthUI
 
@@ -54,6 +55,7 @@ class MyAccountFragment : Fragment() {
                 else{
                     FireStoreUtil.updateCurrentUser(editText_name.text.toString(), editText_bio.text.toString(), null)
                 }
+
             }
 
             btn_sign_out.setOnClickListener{

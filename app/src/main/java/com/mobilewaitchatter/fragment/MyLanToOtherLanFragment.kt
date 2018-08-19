@@ -50,17 +50,19 @@ class MyLanToOtherLanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val currentVoc = getVocabulary()
-        text_mylan.text = currentVoc.word_mylan
-        imageView_nextLesson_other_lan.setOnClickListener {
-            if (getAsware(currentVoc.word_otherlan, editText_otherlan.text.toString())) {
-                listener?.changeFragment(FeedbackFragment.newInstance(true,"Muito Bom!!!"))
-                AppConstants.vocabularyFlashcards.count_correct += 1
-                thread.start()
-            }
-            else{
-                listener?.changeFragment(FeedbackFragment.newInstance(false, "Desculpe, o correto é "+currentVoc.word_otherlan))
-                thread.start()
+        if (AppConstants.vocabularyFlashcards.flahshcards.count() > 0) {
+            val currentVoc = getVocabulary()
+            text_mylan.text = currentVoc.word_mylan
+
+            imageView_nextLesson_other_lan.setOnClickListener {
+                if (getAsware(currentVoc.word_otherlan, editText_otherlan.text.toString())) {
+                    listener?.changeFragment(FeedbackFragment.newInstance(true, "Muito Bom!!!"))
+                    AppConstants.vocabularyFlashcards.count_correct += 1
+                    thread.start()
+                } else {
+                    listener?.changeFragment(FeedbackFragment.newInstance(false, "Desculpe, o correto é " + currentVoc.word_otherlan))
+                    thread.start()
+                }
             }
         }
 
@@ -86,7 +88,7 @@ class MyLanToOtherLanFragment : Fragment() {
                             AppConstants.vocabularyFlashcards.current_group){ level ->
                         FireStoreUtil.updateUserLevelByGroup(AppConstants.vocabularyFlashcards.current_group, level)
                     }
-                    listener?.getVocabularyFlashcards()
+                    listener?.changeFragment(NewVocabularyFragment.newInstance(true))
                 }
                 else {
                     listener?.changeFragment(OtherLanToMyLanFragment())

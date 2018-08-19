@@ -76,11 +76,9 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 }
                 startActivityForResult(Intent.createChooser(intent,"Selectione a Imagem: "), RC_SELECT_IMAGE)
             }
-
-            getVocabularyFlashcards()
         }
 
-        changeFragment(NewVocabularyFragment())
+        changeFragment(NewVocabularyFragment.newInstance(true))
 
     }
 
@@ -146,14 +144,17 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                     if (it.level == userLevel)
                         wordsFromLevel.add(it)
                 }
-                wordsFromLevel.forEach {
-                    AppConstants.vocabularyFlashcards.flahshcards.add(it)
-                }
+                AppConstants.vocabularyFlashcards.flahshcards = wordsFromLevel
+                //wordsFromLevel.forEach {
+                //    AppConstants.vocabularyFlashcards.flahshcards.add(it)
+                //}
+                Toast.makeText(this,group,Toast.LENGTH_SHORT).show()
                 AppConstants.vocabularyFlashcards.count_correct = 0
                 AppConstants.vocabularyFlashcards.current = 0
                 AppConstants.vocabularyFlashcards.max_count =  AppConstants.vocabularyFlashcards.flahshcards.count()
             }
         }
+
     }
 
 }

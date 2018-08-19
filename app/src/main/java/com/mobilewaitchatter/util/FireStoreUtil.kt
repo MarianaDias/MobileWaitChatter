@@ -165,7 +165,7 @@ object FireStoreUtil {
 
 
     fun getWordGroup(group: String, onComplete: (MutableList<Vocabulary>) -> Unit){
-        filestoreInstance.collection("groups").document("Z4HiHjT1VCbACfN35k2T").collection(group).get().addOnSuccessListener {
+        filestoreInstance.collection("groups").document("1OeMzCd5L7BMZZ0opPFE").collection(group).get().addOnSuccessListener {
             var words = mutableListOf<Vocabulary>()
             it.forEach {
                 words.add(it.toObject(Vocabulary::class.java)!!)

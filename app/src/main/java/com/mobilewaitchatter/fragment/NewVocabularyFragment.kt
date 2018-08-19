@@ -15,7 +15,12 @@ import com.mobilewaitchatter.model.Vocabulary_Flashcards
 import com.mobilewaitchatter.util.FireStoreUtil
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast
@@ -43,20 +48,22 @@ class NewVocabularyFragment : Fragment() {
                 listener?.changeFragment(MyLanToOtherLanFragment())
             }
             else{
-                listener?.changeFragment(NewVocabularyFragment())
+                text_otherlan_newVoc.text = AppConstants.vocabularyFlashcards.current.toString()
+                listener?.changeFragment(NewVocabularyFragment.newInstance(false))
             }
         }
-        /*if (AppConstants.vocabularyFlashcards.flahshcards.count() == 0){
-            listener?.getVocabularyFlashcards {
+
+
+        async(CommonPool){
+            launch {
+                val newFlashcards = arguments?.getBoolean("newFlashcards")
+                if (newFlashcards == true)
+                    listener?.getVocabularyFlashcards()
+            }
+            runBlocking {
                 val currentVoc = get_word()
                 text_mylan_newVoc.text = currentVoc.word_mylan
-                text_otherlan_newVoc.text = currentVoc.word_otherlan
-            }
-        }*/
-        if (AppConstants.vocabularyFlashcards.flahshcards.count() > 0){
-            val currentVoc = get_word()
-            text_mylan_newVoc.text = currentVoc.word_mylan
-            text_otherlan_newVoc.text = currentVoc.word_otherlan
+                text_otherlan_newVoc.text = currentVoc.word_otherlan  }
         }
 
     }
@@ -68,12 +75,30 @@ class NewVocabularyFragment : Fragment() {
         }
     }
 
-    private fun get_word() : Vocabulary{
+    private suspend  fun get_word() : Vocabulary{
         val index = AppConstants.vocabularyFlashcards.current
         AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
         return AppConstants.vocabularyFlashcards.flahshcards[index]
     }
 
+    companion object {
+        fun newInstance(newFlashcards: Boolean): NewVocabularyFragment {
+            val fragment = NewVocabularyFragment()
+            val args = Bundle()
+            args.putBoolean("newFlashcards", newFlashcards)
+            fragment.setArguments(args)
+            return fragment
+        }
+    }
 
+    var thread: Thread = object : Thread() {
+        override fun run() {
+            try {
+                listener?.getVocabularyFlashcards()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 }
