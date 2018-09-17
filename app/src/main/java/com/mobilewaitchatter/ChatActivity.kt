@@ -140,14 +140,15 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
             FireStoreUtil.getWordGroup(group) { words ->
                 var wordsFromLevel = mutableListOf<Vocabulary>()
                 AppConstants.vocabularyFlashcards.flahshcards.clear()
-                words.forEach {
+                for (i in 0..4){
+                    wordsFromLevel.add(words[i])
+
+                }
+                /*words.forEach {
                     if (it.level == userLevel)
                         wordsFromLevel.add(it)
-                }
+                }*/
                 AppConstants.vocabularyFlashcards.flahshcards = wordsFromLevel
-                //wordsFromLevel.forEach {
-                //    AppConstants.vocabularyFlashcards.flahshcards.add(it)
-                //}
                 Toast.makeText(this,group,Toast.LENGTH_SHORT).show()
                 AppConstants.vocabularyFlashcards.count_correct = 0
                 AppConstants.vocabularyFlashcards.current = 0

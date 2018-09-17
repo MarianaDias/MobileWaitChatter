@@ -60,7 +60,7 @@ class MyLanToOtherLanFragment : Fragment() {
                     AppConstants.vocabularyFlashcards.count_correct += 1
                     thread.start()
                 } else {
-                    listener?.changeFragment(FeedbackFragment.newInstance(false, "Desculpe, o correto é " + currentVoc.word_otherlan))
+                    listener?.changeFragment(FeedbackFragment.newInstance(false, currentVoc.word_mylan+" -> " + currentVoc.word_otherlan))
                     thread.start()
                 }
             }

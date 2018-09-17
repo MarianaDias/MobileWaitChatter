@@ -47,7 +47,7 @@ class OtherLanToMyLanFragment: Fragment() {
                 thread.start()
             }
             else{
-                listener?.changeFragment(FeedbackFragment.newInstance(false, "Desculpe, o correto é "+currentVoc.word_mylan))
+                listener?.changeFragment(FeedbackFragment.newInstance(false, currentVoc.word_otherlan+" -> "+currentVoc.word_mylan))
                 thread.start()
             }
         }
