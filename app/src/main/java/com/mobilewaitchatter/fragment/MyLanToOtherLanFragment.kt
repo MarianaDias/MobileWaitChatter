@@ -88,7 +88,8 @@ class MyLanToOtherLanFragment : Fragment() {
                             AppConstants.vocabularyFlashcards.current_group){ level ->
                         FireStoreUtil.updateUserLevelByGroup(AppConstants.vocabularyFlashcards.current_group, level)
                     }
-                    listener?.changeFragment(NewVocabularyFragment.newInstance(true))
+                    AppConstants.vocabularyFlashcards.current = -1
+                    listener?.changeFragment(LoadingFragment())
                 }
                 else {
                     listener?.changeFragment(OtherLanToMyLanFragment())

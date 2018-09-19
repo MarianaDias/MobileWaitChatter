@@ -12,10 +12,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
-import com.mobilewaitchatter.fragment.MyAccountFragment
-import com.mobilewaitchatter.fragment.MyLanToOtherLanFragment
-import com.mobilewaitchatter.fragment.NewVocabularyFragment
-import com.mobilewaitchatter.fragment.OtherLanToMyLanFragment
+import com.mobilewaitchatter.fragment.*
 import com.mobilewaitchatter.model.*
 import com.mobilewaitchatter.util.FireStoreUtil
 import com.mobilewaitchatter.util.StorageUtil
@@ -37,7 +34,7 @@ private const val RC_SELECT_IMAGE = 2
 
 interface CoolFragmentListener {
     fun changeFragment(fragment: android.support.v4.app.Fragment)
-    fun getVocabularyFlashcards()
+    //fun getVocabularyFlashcards(onComplete: Boolean)
 }
 
 class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
@@ -78,7 +75,7 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
             }
         }
 
-        changeFragment(NewVocabularyFragment.newInstance(true))
+        changeFragment(LoadingFragment())
 
     }
 
@@ -131,7 +128,7 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 .commit()
     }
 
-    override fun getVocabularyFlashcards( )  {
+    /*override fun getVocabularyFlashcards(onComplete: Vocabulary_Flashcards )  {
         val index = Random().nextInt(AppConstants.groups.count())
         val group = AppConstants.groups[index]
         AppConstants.vocabularyFlashcards.current_group = group
@@ -144,10 +141,6 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                     wordsFromLevel.add(words[i])
 
                 }
-                /*words.forEach {
-                    if (it.level == userLevel)
-                        wordsFromLevel.add(it)
-                }*/
                 AppConstants.vocabularyFlashcards.flahshcards = wordsFromLevel
                 Toast.makeText(this,group,Toast.LENGTH_SHORT).show()
                 AppConstants.vocabularyFlashcards.count_correct = 0
@@ -155,7 +148,7 @@ class ChatActivity : AppCompatActivity(), CoolFragmentListener  {
                 AppConstants.vocabularyFlashcards.max_count =  AppConstants.vocabularyFlashcards.flahshcards.count()
             }
         }
-
-    }
+        onComplete(AppConstants.vocabularyFlashcards).invoke()
+    }*/
 
 }

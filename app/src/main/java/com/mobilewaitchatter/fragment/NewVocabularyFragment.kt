@@ -52,19 +52,24 @@ class NewVocabularyFragment : Fragment() {
                 listener?.changeFragment(NewVocabularyFragment.newInstance(false))
             }
         }
+        val newFlashcards = arguments?.getBoolean("newFlashcards")
+        if (newFlashcards == true) {
+            listener?.changeFragment(LoadingFragment())
+            //text_mylan_newVoc.text = "haha"
+        }
+        else{
+            val currentVoc = get_word()
+            text_mylan_newVoc.text = currentVoc.word_mylan
+            text_otherlan_newVoc.text = currentVoc.word_otherlan
+        }
 
-
-        async(CommonPool){
+       /* async(CommonPool){
             launch {
-                val newFlashcards = arguments?.getBoolean("newFlashcards")
-                if (newFlashcards == true)
-                    listener?.getVocabularyFlashcards()
+
             }
             runBlocking {
-                val currentVoc = get_word()
-                text_mylan_newVoc.text = currentVoc.word_mylan
-                text_otherlan_newVoc.text = currentVoc.word_otherlan  }
-        }
+                  }
+        }*/
 
     }
 
@@ -75,7 +80,7 @@ class NewVocabularyFragment : Fragment() {
         }
     }
 
-    private suspend  fun get_word() : Vocabulary{
+    private fun get_word() : Vocabulary{
         val index = AppConstants.vocabularyFlashcards.current
         AppConstants.vocabularyFlashcards.current = AppConstants.vocabularyFlashcards.current + 1
         return AppConstants.vocabularyFlashcards.flahshcards[index]
@@ -94,7 +99,8 @@ class NewVocabularyFragment : Fragment() {
     var thread: Thread = object : Thread() {
         override fun run() {
             try {
-                listener?.getVocabularyFlashcards()
+                Thread.sleep(2000)
+                listener?.changeFragment(NewVocabularyFragment.newInstance(false))
             } catch (e: Exception) {
                 e.printStackTrace()
             }

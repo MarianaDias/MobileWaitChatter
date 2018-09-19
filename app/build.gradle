@@ -46,6 +46,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+    compile 'co.metalab.asyncawait:asyncawait:1.0.0'
     //firebase
     //noinspection GradleCompatible
     implementation 'com.google.firebase:firebase-core:16.0.0'
