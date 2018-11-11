@@ -6,17 +6,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
 import com.mobilewaitchatter.util.FireStoreUtil
 import com.mobilewaitchatter.util.RecomendationUtil
-import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
 import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
-import org.jetbrains.anko.support.v4.toast
-import java.util.*
 
 /**
  * Created by mariana on 07/05/2018.

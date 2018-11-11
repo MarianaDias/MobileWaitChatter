@@ -1,7 +1,6 @@
 package com.mobilewaitchatter.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,21 +10,7 @@ import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
-import com.mobilewaitchatter.model.Vocabulary_Flashcards
-import com.mobilewaitchatter.util.FireStoreUtil
-import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
 import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.coroutines.experimental.bg
-import org.jetbrains.anko.custom.async
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.toast
-import java.lang.Math.random
-import java.util.*
 
 /**
  * Created by mariana on 07/05/2018.
@@ -53,24 +38,11 @@ class NewVocabularyFragment : Fragment() {
             }
         }
         val newFlashcards = arguments?.getBoolean("newFlashcards")
-        if (newFlashcards == true) {
-            listener?.changeFragment(LoadingFragment())
-            //text_mylan_newVoc.text = "haha"
-        }
-        else{
+        if(newFlashcards == false){
             val currentVoc = get_word()
             text_mylan_newVoc.text = currentVoc.word_mylan
             text_otherlan_newVoc.text = currentVoc.word_otherlan
         }
-
-       /* async(CommonPool){
-            launch {
-
-            }
-            runBlocking {
-                  }
-        }*/
-
     }
 
     override fun onAttach(context: Context?) {

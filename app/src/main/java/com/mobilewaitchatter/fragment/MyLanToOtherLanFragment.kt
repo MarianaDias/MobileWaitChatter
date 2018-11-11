@@ -1,31 +1,20 @@
 package com.mobilewaitchatter.fragment
 
 import android.content.Context
-import android.content.Intent
+
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+
 import com.mobilewaitchatter.AppConstants
-import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.CoolFragmentListener
 import com.mobilewaitchatter.R
 import com.mobilewaitchatter.model.Vocabulary
 import com.mobilewaitchatter.util.FireStoreUtil
 import com.mobilewaitchatter.util.RecomendationUtil
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
-import kotlinx.android.synthetic.main.fragment_new_vocabulary.*
-import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.*
-import org.jetbrains.anko.support.v4.toast
-import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.view.*
-import kotlinx.android.synthetic.main.fragment_otherlan_to_mylan.view.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.util.*
 
 
 /**

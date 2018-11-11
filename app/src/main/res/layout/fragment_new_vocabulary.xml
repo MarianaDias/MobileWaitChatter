@@ -15,8 +15,8 @@
             android:text="@string/my_lan_ex"
             android:textColor="@color/colorMyLang"
             android:textSize="25dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_centerVertical="true"
             />
 
@@ -27,6 +27,7 @@
             android:text="@string/other_lan_ex"
             android:textColor="@color/colorOtherLang"
             android:textSize="25dp"
+            android:paddingRight="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text_mylan_newVoc"
             />

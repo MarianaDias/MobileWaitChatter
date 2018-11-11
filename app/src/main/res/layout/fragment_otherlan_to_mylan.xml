@@ -18,8 +18,8 @@
             android:textColor="@color/colorMyLang"
             android:textSize="15dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/edit_text_borders"
             />
 

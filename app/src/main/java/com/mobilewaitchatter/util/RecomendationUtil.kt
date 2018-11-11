@@ -23,6 +23,7 @@ object RecomendationUtil {
 
     fun getNextLevelForGroup(flashcardsCorrectCount: Int, group: String, onComplete:(nextLevel: Int) -> Unit){
         var nextLevel = 1
+        val max = 3
         FireStoreUtil.getUserLevelByGroup(group){level ->
             if ((flashcardsCorrectCount == 5) or (flashcardsCorrectCount == 4))
                 nextLevel= level+1
@@ -31,6 +32,9 @@ object RecomendationUtil {
             else
                 if( level > 1)
                     nextLevel = level -1
+            if (nextLevel > max){
+                nextLevel = max
+            }
             onComplete(nextLevel)
         }
     }

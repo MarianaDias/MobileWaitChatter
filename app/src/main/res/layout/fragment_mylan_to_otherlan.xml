@@ -15,8 +15,8 @@
             android:text="@string/my_lan_ex"
             android:textColor="@color/colorMyLang"
             android:textSize="25dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_centerVertical="true"
             />
 

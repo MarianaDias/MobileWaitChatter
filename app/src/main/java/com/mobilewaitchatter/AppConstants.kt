@@ -11,7 +11,7 @@ object AppConstants {
     const val USER_ID = "USER_ID"
 
     val groups = listOf<String>(
-            "places", "animals","hello"
+            "places", "animals","hello", "family","food", "sports"
     )
 
     var vocabularyFlashcards = Vocabulary_Flashcards()

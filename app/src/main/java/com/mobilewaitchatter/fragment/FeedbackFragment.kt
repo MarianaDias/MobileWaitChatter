@@ -2,7 +2,6 @@ package com.mobilewaitchatter.fragment
 
 import android.content.Context
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +11,7 @@ import com.mobilewaitchatter.CoolFragmentListener
 
 import com.mobilewaitchatter.R
 import kotlinx.android.synthetic.main.fragment_feedback.*
-import kotlinx.android.synthetic.main.fragment_mylan_to_otherlan.*
 import org.jetbrains.anko.textColor
-import android.support.v4.content.ContextCompat
-import android.content.res.ColorStateList
-
-
 
 class FeedbackFragment : Fragment() {
     private var listener: CoolFragmentListener? = null

@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.mobilewaitchatter.recycleview.item.PersonItem
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.mobilewaitchatter.AppConstants
 import com.mobilewaitchatter.ChatActivity
 import com.mobilewaitchatter.model.*
@@ -20,6 +21,8 @@ import java.util.*
  * Created by mariana on 15/04/2018.
  */
 object FireStoreUtil {
+    ;
+
     private val filestoreInstance : FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
 
     private val currentUserDocRef : DocumentReference

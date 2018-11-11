@@ -1,9 +1,7 @@
 package com.mobilewaitchatter
 
-import android.annotation.SuppressLint
-import android.app.Fragment
+
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.mobilewaitchatter.fragment.MyAccountFragment
 import com.mobilewaitchatter.fragment.PeopleFragment
